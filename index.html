@@ -4,21 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>thefacebook</title>
-    <!-- Standard Favicon -->
-<link rel="icon" type="image/png" href="/icons/favicon-32x32.png">
-<link rel="icon" type="image/png" href="/icons/favicon-16x16.png">
-    <link rel="shortcut icon" href="/icons/favicon.ico">
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#2b6cb0">
-    <link rel="manifest" href="manifest.json">
-    <!-- iOS Support -->
-    <link rel="apple-touch-icon" href="/icons/icon-192.png">
-    <meta name="apple-mobile-web-app-status-bar" content="#2b6cb0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <!-- Add Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom styles to fix specific issues */
+        /* Modal styles */
         .modal {
             position: fixed;
             top: 0;
@@ -40,6 +27,7 @@
             visibility: visible;
         }
         
+        /* File upload button styles */
         .custom-file-upload {
             cursor: pointer;
             padding: 6px 12px;
@@ -56,6 +44,7 @@
             display: none;
         }
         
+        /* Profile picture styles */
         .profile-pic {
             width: 100px;
             height: 100px;
@@ -64,44 +53,32 @@
             align-items: center;
             justify-content: center;
             font-size: 48px;
-            border-radius: 0.375rem;
         }
         
+        /* Media preview styles */
         .media-preview {
             max-width: 100%;
             max-height: 300px;
         }
-
-        /* Fix for textarea in dark mode */
-        .status-update {
-            background-color: #2d3748;
-            color: white;
-            border: 1px solid #4a5568;
-        }
-
-        /* Fix for input fields in dark mode */
-        .bg-transparent:focus {
-            background-color: rgba(255, 255, 255, 0.05);
-        }
     </style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex flex-col">
+<body class="bg-gray-900 text-white">
     <!-- Main Content -->
-    <main class="container mx-auto mt-6 px-4 flex flex-col md:flex-row flex-grow">
+    <main class="container mx-auto mt-6 px-4 flex flex-col md:flex-row">
         <!-- Left Sidebar - Just Profile -->
         <div class="w-full md:w-1/4 mb-6 md:mb-0 md:pr-4">
-            <div class="bg-gray-800 rounded-lg shadow-md p-4 mb-4 sticky top-4">
+            <div class="bg-gray-800 rounded-lg shadow-md p-4 mb-4">
                 <div class="flex flex-col items-center space-y-4">
-                    <div id="profile-pic-display" class="profile-pic">
+                    <div id="profile-pic-display" class="profile-pic rounded-md">
                         <span id="profile-avatar">👤</span>
                     </div>
-                    <div class="text-center w-full">
-                        <input type="text" id="username-display" class="font-bold text-lg bg-transparent text-center w-full focus:outline-none focus:border-blue-500 focus:bg-gray-700 px-2 py-1 rounded" value="Your Name" />
+                    <div class="text-center">
+                        <input type="text" id="username-display" class="font-bold text-lg bg-transparent text-center focus:outline-none focus:border-blue-500" value="Your Name" />
                     </div>
                     <button id="edit-profile-btn" class="text-sm text-blue-400 hover:text-blue-300">Edit Profile</button>
-                    <div class="flex space-x-2 w-full justify-center">
-                        <button id="export-btn" class="text-sm text-green-400 hover:text-green-300 px-3 py-1 bg-gray-700 rounded">Export Data</button>
-                        <button id="import-btn" class="text-sm text-purple-400 hover:text-purple-300 px-3 py-1 bg-gray-700 rounded">Import Data</button>
+                    <div class="flex space-x-2">
+                        <button id="export-btn" class="text-sm text-green-400 hover:text-green-300">Export Data</button>
+                        <button id="import-btn" class="text-sm text-purple-400 hover:text-purple-300">Import Data</button>
                     </div>
                 </div>
             </div>
@@ -132,7 +109,7 @@
                             <span class="flex items-center"><span class="mr-1">🎬</span> Video</span>
                         </label>
                     </div>
-                    <button id="post-btn" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 disabled:opacity-50" disabled>Post</button>
+                    <button id="post-btn" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Post</button>
                 </div>
             </div>
 
@@ -143,7 +120,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 py-4 border-t border-gray-700">
+    <footer class="bg-gray-800 mt-6 py-4 border-t border-gray-700">
         <div class="container mx-auto px-4 text-center text-sm text-gray-400">
             <p>thefacebook © 2025</p>
         </div>
@@ -266,57 +243,6 @@
             data: null
         };
 
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize profile display
-            updateProfileDisplay();
-            
-            // Enable/disable post button based on content
-            document.getElementById('status-input').addEventListener('input', updatePostButtonState);
-            
-            // Load any saved data
-            loadSavedData();
-        });
-
-        function updateProfileDisplay() {
-            const profilePicDisplay = document.getElementById('profile-pic-display');
-            if (userProfile.avatarType === 'custom' && userProfile.customAvatarData) {
-                profilePicDisplay.innerHTML = `<img src="${userProfile.customAvatarData}" alt="Profile" class="w-full h-full object-cover rounded-md">`;
-            } else {
-                profilePicDisplay.innerHTML = `<span id="profile-avatar">${userProfile.avatar}</span>`;
-            }
-            document.getElementById('username-display').value = userProfile.name;
-        }
-
-        function updatePostButtonState() {
-            const postBtn = document.getElementById('post-btn');
-            const statusInput = document.getElementById('status-input');
-            postBtn.disabled = !(statusInput.value.trim() || currentMedia.data);
-        }
-
-        function loadSavedData() {
-            const savedData = localStorage.getItem('thefacebookData');
-            if (savedData) {
-                try {
-                    const parsedData = JSON.parse(savedData);
-                    if (parsedData.userProfile) userProfile = parsedData.userProfile;
-                    if (parsedData.posts) posts = parsedData.posts;
-                    updateProfileDisplay();
-                    renderPosts();
-                } catch (e) {
-                    console.error("Error loading saved data:", e);
-                }
-            }
-        }
-
-        function saveData() {
-            const dataToSave = {
-                userProfile: userProfile,
-                posts: posts
-            };
-            localStorage.setItem('thefacebookData', JSON.stringify(dataToSave));
-        }
-
         // Function to create post HTML
         function createPostHTML(post, index) {
             let mediaHTML = '';
@@ -379,7 +305,7 @@
                     ${commentsHTML}
                     <div class="comment-form mt-3 hidden">
                         <div class="flex space-x-2">
-                            <input type="text" class="comment-input flex-1 rounded-md px-2 py-1 text-sm bg-gray-700 text-white" placeholder="Write a comment...">
+                            <input type="text" class="comment-input flex-1 rounded-md px-2 py-1 text-sm" placeholder="Write a comment...">
                             <button class="submit-comment-btn bg-blue-600 text-white px-3 rounded hover:bg-blue-700 text-sm">Comment</button>
                         </div>
                     </div>
@@ -394,7 +320,6 @@
             posts.forEach((post, index) => {
                 postsContainer.innerHTML += createPostHTML(post, index);
             });
-            saveData();
         }
 
         // Post button functionality
@@ -407,7 +332,7 @@
                     name: userProfile.name,
                     avatar: userProfile.avatarType === 'emoji' ? userProfile.avatar : userProfile.customAvatarData,
                     avatarType: userProfile.avatarType,
-                    time: new Date().toLocaleString(),
+                    time: "Just now",
                     content: content,
                     likes: 0,
                     comments: [],
@@ -424,7 +349,6 @@
                 // Clear the input and media preview
                 statusInput.value = '';
                 clearMediaPreview();
-                updatePostButtonState();
             }
         });
 
@@ -448,8 +372,6 @@
                     imagePreview.classList.remove('hidden');
                     videoPreview.classList.add('hidden');
                     previewContainer.classList.remove('hidden');
-                    
-                    updatePostButtonState();
                 };
                 
                 reader.readAsDataURL(file);
@@ -476,8 +398,6 @@
                     videoPreview.classList.remove('hidden');
                     imagePreview.classList.add('hidden');
                     previewContainer.classList.remove('hidden');
-                    
-                    updatePostButtonState();
                 };
                 
                 reader.readAsDataURL(file);
@@ -487,7 +407,6 @@
         // Remove media button
         document.getElementById('remove-media-btn').addEventListener('click', function() {
             clearMediaPreview();
-            updatePostButtonState();
         });
 
         // Function to clear media preview
@@ -504,10 +423,6 @@
             imagePreview.classList.add('hidden');
             videoPreview.classList.add('hidden');
             previewContainer.classList.add('hidden');
-            
-            // Reset file inputs
-            document.getElementById('image-upload').value = '';
-            document.getElementById('video-upload').value = '';
         }
 
         // Event delegation for post interactions (like, comment, submit comment, edit comment)
@@ -522,7 +437,6 @@
                 const likeText = `<span class="mr-1">👍</span> Like (${posts[postIndex].likes})`;
                 likeBtn.innerHTML = likeText;
                 likeBtn.classList.add('text-blue-400');
-                saveData();
             }
             
             // Comment button
@@ -693,15 +607,23 @@
             if (avatarSelect.value === 'custom' && customAvatarPreview.src) {
                 userProfile.avatarType = 'custom';
                 userProfile.customAvatarData = customAvatarPreview.src;
+                
+                // Update profile display
+                document.getElementById('profile-pic-display').innerHTML = `
+                    <img src="${userProfile.customAvatarData}" alt="Profile" class="w-full h-full object-cover">
+                `;
             } else {
                 userProfile.avatarType = 'emoji';
                 userProfile.avatar = avatarSelect.value;
-                userProfile.customAvatarData = null;
+                
+                // Update profile display
+                document.getElementById('profile-pic-display').innerHTML = `
+                    <span id="profile-avatar">${userProfile.avatar}</span>
+                `;
             }
             
             // Update display
-            updateProfileDisplay();
-            saveData();
+            usernameDisplay.value = userProfile.name;
             
             // Close modal
             profileModal.classList.remove('active');
@@ -710,7 +632,6 @@
         // Allow editing username directly
         usernameDisplay.addEventListener('change', function() {
             userProfile.name = this.value.trim() || "Your Name";
-            saveData();
         });
 
         // Export functionality
@@ -720,7 +641,7 @@
                 posts: posts
             };
             
-            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataStr = JSON.stringify(exportData);
             
             // Create download link
             const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
@@ -755,7 +676,18 @@
                     posts = parsedData.posts;
                     
                     // Update UI
-                    updateProfileDisplay();
+                    usernameDisplay.value = userProfile.name;
+                    
+                    if (userProfile.avatarType === 'emoji') {
+                        document.getElementById('profile-pic-display').innerHTML = `
+                            <span id="profile-avatar">${userProfile.avatar}</span>
+                        `;
+                    } else {
+                        document.getElementById('profile-pic-display').innerHTML = `
+                            <img src="${userProfile.customAvatarData}" alt="Profile" class="w-full h-full object-cover">
+                        `;
+                    }
+                    
                     renderPosts();
                     
                     // Close modal
@@ -767,30 +699,19 @@
                 alert('Error importing data: ' + e.message);
             }
         });
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful');
-                    })
-                    .catch(err => {
-                        console.log('ServiceWorker registration failed: ', err);
-                    });
-            });
-        }
-        // Service Worker Registration
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(registration => {
-        console.log('SW registered:', registration.scope);
-      })
-      .catch(err => {
-        console.log('SW registration failed:', err);
-      });
-  });
-}
+
+        // Initialize profile display
+        document.addEventListener('DOMContentLoaded', function() {
+            if (userProfile.avatarType === 'custom' && userProfile.customAvatarData) {
+                document.getElementById('profile-pic-display').innerHTML = `
+                    <img src="${userProfile.customAvatarData}" alt="Profile" class="w-full h-full object-cover">
+                `;
+            } else {
+                document.getElementById('profile-pic-display').innerHTML = `
+                    <span id="profile-avatar">${userProfile.avatar}</span>
+                `;
+            }
+        });
     </script>
 </body>
 </html>
