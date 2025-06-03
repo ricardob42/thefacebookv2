@@ -1,4 +1,4 @@
-# thefacebook-web
+# thefacebookv2
 
 🧠 *Remake técnico del Facebook original como ejercicio práctico de diseño web retro.*
 
