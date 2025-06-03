@@ -33,12 +33,14 @@ Fue desarrollado como parte de mi proceso de aprendizaje personal y forma parte 
 
 ## 📸 Capturas
 
-(Agrega aquí imágenes del sitio en desktop y móvil, por ejemplo usando `![screenshot](ruta)`)
-
+No disponibles
 ---
 
 ## 📦 Cómo usarlo
 
 1. Clona el repositorio:
 ```bash
-git clone https://github.com/ricardob42/thefacebook-web.git
+git clone https://github.com/ricardob42/thefacebookv2.git
+
+Disclaimer
+Por ahora le faltan algunos detalles por pulir (el codigo sigue roto :v) puedes ver la versión anterior en mi perfil.
