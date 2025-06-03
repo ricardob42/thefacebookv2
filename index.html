@@ -1,48 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>thefacebook</title>
-    <link rel="icon" type="image/png" href="/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" href="/icons/favicon-16x16.png">
-    <link rel="shortcut icon" href="/icons/favicon.ico">
-    <meta name="theme-color" content="#2b6cb0">
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="/icons/icon-192.png">
-    <meta name="apple-mobile-web-app-status-bar" content="#2b6cb0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>thefacebook</title>
+  <link rel="icon" type="image/png" href="/icons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" href="/icons/favicon-16x16.png" />
+  <link rel="shortcut icon" href="/icons/favicon.ico" />
+  <meta name="theme-color" content="#2b6cb0" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-status-bar" content="#2b6cb0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex flex-col">
 
-    <header class="bg-gray-800 py-4 shadow-md">
-        <div class="container mx-auto px-4">
-            <h1 class="text-xl font-bold text-center text-white">thefacebook</h1>
+  <header class="bg-gray-800 py-4 shadow-md">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-xl font-bold text-white">thefacebook</h1>
+    </div>
+  </header>
+
+  <main class="container mx-auto mt-6 px-4 flex flex-col gap-4 md:flex-row flex-grow">
+    <aside class="w-full md:w-1/4 space-y-4">
+      <div class="bg-gray-800 rounded-lg shadow-md p-4 text-center">
+        <div class="w-24 h-24 mx-auto rounded-full bg-gray-600 flex items-center justify-center text-4xl">👤</div>
+        <h2 class="text-lg font-semibold mt-2">Your Name</h2>
+        <button class="mt-2 text-sm text-blue-400 hover:underline">Edit Profile</button>
+        <div class="flex justify-center gap-2 mt-4">
+          <button class="px-3 py-1 bg-green-500 text-white text-xs rounded hover:bg-green-600">Export</button>
+          <button class="px-3 py-1 bg-purple-500 text-white text-xs rounded hover:bg-purple-600">Import</button>
         </div>
-    </header>
+      </div>
+    </aside>
 
-    <main class="container mx-auto mt-6 px-4 flex flex-col md:flex-row flex-grow">
-        <aside class="w-full md:w-1/4 mb-6 md:mb-0 md:pr-4">
-            <!-- Sidebar de perfil: avatar, nombre, botones, etc. -->
-        </aside>
-
-        <section class="w-full md:w-3/4 mb-6 md:mb-0 md:px-4">
-            <!-- Feed: textarea, botones, publicaciones -->
-        </section>
-    </main>
-
-    <footer class="bg-gray-800 py-4 border-t border-gray-700">
-        <div class="container mx-auto px-4 text-center text-sm text-gray-400">
-            <p>thefacebook © 2025</p>
+    <section class="w-full md:w-3/4 space-y-4">
+      <div class="bg-gray-800 rounded-lg shadow-md p-4">
+        <textarea class="status-update w-full rounded-md p-2 text-sm mb-2" rows="4" placeholder="What's on your mind?"></textarea>
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-2">
+          <div class="flex gap-2">
+            <label class="custom-file-upload text-sm">
+              <input type="file" accept="image/*" />
+              <span class="inline-flex items-center"><span class="mr-1">📷</span> Photo</span>
+            </label>
+            <label class="custom-file-upload text-sm">
+              <input type="file" accept="video/*" />
+              <span class="inline-flex items-center"><span class="mr-1">🎬</span> Video</span>
+            </label>
+          </div>
+          <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full sm:w-auto">Post</button>
         </div>
-    </footer>
+      </div>
 
-    <!-- Modales (perfil, importar datos, comentarios) -->
-    <!-- Los modales van aquí -->
+      <div class="bg-gray-800 rounded-lg shadow-md p-4 text-sm text-gray-400 text-center">
+        No posts yet. Start sharing!
+      </div>
+    </section>
+  </main>
 
-    <!-- Script JS externo (a integrar luego) -->
-    <script src="js/main.js"></script>
+  <footer class="bg-gray-800 py-4 border-t border-gray-700 mt-6">
+    <div class="container mx-auto px-4 text-center text-sm text-gray-400">
+      <p>thefacebook © 2025</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
 </body>
 </html>
