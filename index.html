@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>thefacebook</title>
     
-        <!-- Favicons Stuff -->
-    <link rel="icon" type="image/png" href="/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" href="/icons/favicon-16x16.png">
-    
-    <!-- PWA Meta Tags (existing code) -->
+    <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#2b6cb0">
     <link rel="manifest" href="/manifest.json">
+    <!-- iOS Support -->
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <meta name="apple-mobile-web-app-status-bar" content="#2b6cb0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     
     <!-- Add Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -765,6 +765,18 @@
                 alert('Error importing data: ' + e.message);
             }
         });
+                // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
