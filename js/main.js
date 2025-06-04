@@ -19,18 +19,29 @@ document.addEventListener('DOMContentLoaded', () => {
       const postDiv = document.createElement('div');
       postDiv.className = "bg-gray-800 rounded-lg shadow-md p-4 space-y-2";
 
-      postDiv.innerHTML = `
-        <div class="flex items-center gap-2 text-sm text-white font-semibold">
-          <div class="w-8 h-8 flex items-center justify-center bg-gray-600 rounded-full text-lg">${post.avatar}</div>
-          <span>${post.name}</span>
-        </div>
-        <p class="text-sm text-white">${post.content}</p>
-        ${post.media ? post.media.type === "image"
-          ? `<img src="${post.media.data}" class="media-preview rounded-md" alt="img" />`
-          : `<video src="${post.media.data}" class="media-preview rounded-md" controls></video>`
-          : ""}
-      `;
+      let mediaHTML = "";
+if (post.media) {
+  if (post.media.type === "image") {
+    mediaHTML = `<img src="${post.media.data}" class="media-preview rounded-md" alt="img" />`;
+  } else if (post.media.type === "video") {
+    mediaHTML = `
+      <video class="media-preview rounded-md w-full" controls>
+        <source src="${post.media.data}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>`;
+  }
+}
+
+postDiv.innerHTML = `
+  <div class="flex items-center gap-2 text-sm text-white font-semibold">
+    <div class="w-8 h-8 flex items-center justify-center bg-gray-600 rounded-full text-lg">${post.avatar}</div>
+    <span>${post.name}</span>
+  </div>
+  <p class="text-sm text-white">${post.content}</p>
+  ${mediaHTML}
+`;
       postsContainer.appendChild(postDiv);
+postDiv.querySelector('video')?.load();
     });
   }
 
