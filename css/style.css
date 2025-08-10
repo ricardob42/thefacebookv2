@@ -1,5 +1,7 @@
-
 /* ==== Estilos Personalizados - thefacebook 2.0 ==== */
+:root {
+  color-scheme: dark;
+}
 
 .modal {
     position: fixed;
